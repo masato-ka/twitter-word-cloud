@@ -2,8 +2,10 @@ package ka.masato.twitter.twitterwordcloud.domain.wordcount.repository;
 
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCounts;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface WordCountsRepository extends JpaRepository<Integer, WordCounts> {
+@Repository
+public interface WordCountsRepository extends JpaRepository<WordCounts, Integer> {
 
-    public WordCounts findByWord(String word);
+    WordCounts findByWord(String word);
 }
