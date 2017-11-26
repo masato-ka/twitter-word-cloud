@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Table
 @Entity
@@ -22,5 +23,6 @@ public class WordCounts implements Serializable {
     Integer id;
     //TODO
     String word;
-    Integer count;
+    Long count;
+    LocalDateTime time;
 }

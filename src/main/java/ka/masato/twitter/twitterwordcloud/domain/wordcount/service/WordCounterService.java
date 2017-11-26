@@ -2,6 +2,7 @@ package ka.masato.twitter.twitterwordcloud.domain.wordcount.service;
 
 import com.atilika.kuromoji.ipadic.Token;
 import com.atilika.kuromoji.ipadic.Tokenizer;
+import ka.masato.twitter.twitterwordcloud.domain.tweet.domain.Tweet;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCounts;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordCountsRepository;
 import ka.masato.twitter.twitterwordcloud.infra.TwitterConnector;
@@ -32,46 +33,54 @@ public class WordCounterService {
     }
 
 
-    public Integer getWordCount(String word) {
-        WordCounts result = wordCountsRepository.findByWord(word);
-        return result.getCount();
+    public List<WordCounts> getWordCounts(String word) {
+        List<WordCounts> result = wordCountsRepository.findByWord(word);
+        return result;
     }
 
     public void indexingWordCount(String query, int limitSize) throws TwitterException {
 
-        String periodOfQuery = getPeriodOfQuery(1);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String periodOfQuery = getPeriodOfQuery(1, localDateTime);
         log.info(periodOfQuery);
-        List<String> result = getTweetsWithQuery(query, limitSize, periodOfQuery);
-        Map<Object, Long> word = countOfWord(result);
-        log.info(word.toString());
+        List<Tweet> result = getTweetsWithQuery(query, limitSize, periodOfQuery);
+        Map<String, Long> words = countOfWord(result);
+        log.info(words.toString());
+
+        for (String key : words.keySet()) {
+            WordCounts wordCounts = new WordCounts();
+            wordCounts.setWord(key);
+            wordCounts.setCount(words.get(key));
+            wordCounts.setTime(localDateTime);
+            wordCountsRepository.save(wordCounts);
+        }
 
     }
 
-    private List<String> getTweetsWithQuery(String query, int limitSize, String periodOfQuery) throws TwitterException {
+    private List<Tweet> getTweetsWithQuery(String query, int limitSize, String periodOfQuery) throws TwitterException {
         twitterConnector.setQuery(query+" "+periodOfQuery,limitSize);
         return twitterConnector.getQueryResult();
     }
 
-    private Map<Object, Long> countOfWord(List<String> result) {
+    private Map<String, Long> countOfWord(List<Tweet> result) {
         return result.stream()
-                    .map(line -> {
-                        List<Token> tokens = tokenizer.tokenize(line);
-                        List<String> filterd = tokens
+                    .map(tweet -> {
+                        List<Token> tokens = tokenizer.tokenize(tweet.getText());
+                        List<String> filtered = tokens
                                 .stream()
                                 .filter(e -> e.getPartOfSpeechLevel1().equals("馬名"))
                                 .map(e -> e.getSurface()).distinct()
                                 .collect(Collectors.toList());
-                        return filterd;
+                        return filtered;
                     })
                     .filter(e -> e.size() > 0)
                     .flatMap(e -> e.stream())
                     .collect(Collectors.groupingBy(element->element, Collectors.counting()));
     }
 
-    private String getPeriodOfQuery(int minutesTimeSpan) {
+    private String getPeriodOfQuery(int minutesTimeSpan, LocalDateTime startTime) {
         StringBuilder sb = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss");
-        LocalDateTime startTime = LocalDateTime.now();
         sb.append("since:");
         sb.append(startTime.minusMinutes(minutesTimeSpan).format(formatter));
         sb.append("_JST ");

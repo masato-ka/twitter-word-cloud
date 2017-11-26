@@ -1,5 +1,6 @@
 package ka.masato.twitter.twitterwordcloud.infra;
 
+import ka.masato.twitter.twitterwordcloud.domain.tweet.domain.Tweet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
@@ -24,11 +25,13 @@ public class TwitterConnector {
         query.setCount(resultCount);
     }
 
-    public List<String> getQueryResult() throws TwitterException {
+    public List<Tweet> getQueryResult() throws TwitterException {
         QueryResult queryResult = twitter.search(query);
         log.debug("Get twitter query size is " + queryResult.getCount());
+        List<Status> status = queryResult.getTweets();
+        status.get(0).getCreatedAt();
         return queryResult.getTweets().stream()
-                    .map(tweet -> tweet.getText())
+                    .map(tweet -> new Tweet(tweet.getText(),tweet.getCreatedAt()))
                     .collect(Collectors.toList());
     }
 
