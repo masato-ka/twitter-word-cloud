@@ -38,10 +38,10 @@ public class WordCountsService {
         return result;
     }
 
-    public void indexingWordCount(String query, int limitSize) throws TwitterException {
+    public void indexingWordCount(String query, int limitSize, int timeSpan) throws TwitterException {
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        String periodOfQuery = getPeriodOfQuery(1, localDateTime);
+        String periodOfQuery = getPeriodOfQuery(timeSpan, localDateTime);
         log.info(periodOfQuery);
         List<Tweet> result = getTweetsWithQuery(query, limitSize, periodOfQuery);
         Map<String, Long> words = countOfWord(result);
