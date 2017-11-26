@@ -1,5 +1,6 @@
 package ka.masato.twitter.twitterwordcloud.domain.wordcount.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,6 @@ public class WordCounts implements Serializable {
     //TODO
     String word;
     Long count;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     LocalDateTime time;
 }

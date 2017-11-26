@@ -19,16 +19,16 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class WordCounterService {
+public class WordCountsService {
 
     private final TwitterConnector twitterConnector;
     private final WordCountsRepository wordCountsRepository;
     private final Tokenizer tokenizer;
     
-    public WordCounterService(TwitterConnector twitterConnector, WordCountsRepository wordCountsRepository) throws IOException {
+    public WordCountsService(TwitterConnector twitterConnector, WordCountsRepository wordCountsRepository) throws IOException {
         this.twitterConnector = twitterConnector;
         this.wordCountsRepository = wordCountsRepository;
-        String fileName = WordCounterService.class.getClassLoader().getResource("userDic.csv").getPath();
+        String fileName = WordCountsService.class.getClassLoader().getResource("userDic.csv").getPath();
         tokenizer = new Tokenizer.Builder().userDictionary(fileName).build();
     }
 

@@ -1,6 +1,6 @@
 package ka.masato.twitter.twitterwordcloud;
 
-import ka.masato.twitter.twitterwordcloud.domain.wordcount.service.WordCounterService;
+import ka.masato.twitter.twitterwordcloud.domain.wordcount.service.WordCountsService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import twitter4j.TwitterException;
@@ -8,15 +8,15 @@ import twitter4j.TwitterException;
 @Component
 public class CrawlerTask {
 
-    WordCounterService wordCounterService;
+    private final WordCountsService wordCountsService;
 
-    public CrawlerTask(WordCounterService wordCounterService) {
-        this.wordCounterService = wordCounterService;
+    public CrawlerTask(WordCountsService wordCountsService) {
+        this.wordCountsService = wordCountsService;
     }
 
     @Scheduled(fixedDelay = 60000)
     public void doCrawlingTwitter() throws TwitterException {
-        wordCounterService.indexingWordCount("ジャパンカップ",10);
+        wordCountsService.indexingWordCount("ジャパンカップ",10);
     }
 
 }
