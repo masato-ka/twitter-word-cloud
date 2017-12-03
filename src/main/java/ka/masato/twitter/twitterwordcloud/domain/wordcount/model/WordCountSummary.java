@@ -2,7 +2,6 @@ package ka.masato.twitter.twitterwordcloud.domain.wordcount.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

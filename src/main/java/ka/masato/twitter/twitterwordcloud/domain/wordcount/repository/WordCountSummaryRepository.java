@@ -12,7 +12,7 @@ import java.util.List;
 public interface WordCountSummaryRepository extends JpaRepository<WordCountSummary,Integer>{
 
     @Query(value = "SELECT NEW ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCountSummary(w.word.wordId,w.word,SUM(w.count)) " +
-            "FROM WordCounts w WHERE w.word = :word GROUP BY w.word")
+            "FROM WordCounts w WHERE w.word.word = :word GROUP BY w.word")
     WordCountSummary sumCountByWord(@Param("word") String word);
 
     @Query(value= "SELECT NEW ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCountSummary(w.word.wordId,w.word,SUM(w.count)) " +
