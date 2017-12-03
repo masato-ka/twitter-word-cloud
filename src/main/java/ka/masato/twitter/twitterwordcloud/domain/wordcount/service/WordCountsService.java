@@ -3,8 +3,10 @@ package ka.masato.twitter.twitterwordcloud.domain.wordcount.service;
 import com.atilika.kuromoji.ipadic.Token;
 import com.atilika.kuromoji.ipadic.Tokenizer;
 import ka.masato.twitter.twitterwordcloud.domain.tweet.domain.Tweet;
+import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.Word;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCounts;
-import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordCountsRepository;
+import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordCountRepository;
+import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordRepository;
 import ka.masato.twitter.twitterwordcloud.infra.TwitterConnector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,19 +24,27 @@ import java.util.stream.Collectors;
 public class WordCountsService {
 
     private final TwitterConnector twitterConnector;
-    private final WordCountsRepository wordCountsRepository;
+    private final WordCountRepository wordCountRepository;
+    private final WordRepository wordRepository;
     private final Tokenizer tokenizer;
     
-    public WordCountsService(TwitterConnector twitterConnector, WordCountsRepository wordCountsRepository) throws IOException {
+    public WordCountsService(TwitterConnector twitterConnector,
+                             WordCountRepository wordCountRepository, WordRepository wordRepository) throws IOException {
         this.twitterConnector = twitterConnector;
-        this.wordCountsRepository = wordCountsRepository;
+        this.wordCountRepository = wordCountRepository;
+        this.wordRepository = wordRepository;
         String fileName = WordCountsService.class.getClassLoader().getResource("userDic.csv").getPath();
         tokenizer = new Tokenizer.Builder().userDictionary(fileName).build();
     }
 
+    public List<WordCounts> getWordCountsPreod(LocalDateTime time1, LocalDateTime time2){
+        //List<WordCounts> result = wordCountsRepository.findByTimeBetween(time1, time2);
+        List<WordCounts> result = wordCountRepository.findByTimeBetween(time1, time2);
+        return result;
+    }
 
     public List<WordCounts> getWordCounts(String word) {
-        List<WordCounts> result = wordCountsRepository.findByWord(word);
+        List<WordCounts> result = wordCountRepository.findByWord(word);
         return result;
     }
 
@@ -49,12 +59,18 @@ public class WordCountsService {
 
         for (String key : words.keySet()) {
             WordCounts wordCounts = new WordCounts();
-            wordCounts.setWord(key);
+            Word word = wordRepository.findByWord(key);
+            if (word == null) {
+                Word s = new Word();
+                s.setWord(key);
+                word = wordRepository.save(s);
+            }
+            wordCounts.setWord(word);
             wordCounts.setCount(words.get(key));
+            log.info(localDateTime.toString());
             wordCounts.setTime(localDateTime);
-            wordCountsRepository.save(wordCounts);
+            wordCountRepository.save(wordCounts);
         }
-
     }
 
     private List<Tweet> getTweetsWithQuery(String query, int limitSize, String periodOfQuery) throws TwitterException {

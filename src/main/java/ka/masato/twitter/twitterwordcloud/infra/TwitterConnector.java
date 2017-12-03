@@ -28,8 +28,6 @@ public class TwitterConnector {
     public List<Tweet> getQueryResult() throws TwitterException {
         QueryResult queryResult = twitter.search(query);
         log.debug("Get twitter query size is " + queryResult.getCount());
-        List<Status> status = queryResult.getTweets();
-        status.get(0).getCreatedAt();
         return queryResult.getTweets().stream()
                     .map(tweet -> new Tweet(tweet.getText(),tweet.getCreatedAt()))
                     .collect(Collectors.toList());

@@ -1,28 +1,26 @@
 package ka.masato.twitter.twitterwordcloud.domain.wordcount.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 
-@Table
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WordCounts implements Serializable {
+public class WordCountSummary {
 
     @Id
     @GeneratedValue
-    Integer id;
-    //TODO
-    @ManyToOne
+    Integer Id;
+    @OneToOne
+    @NotNull
     Word word;
+    @NotNull
     Long count;
-    @JsonFormat(pattern="yyyy-MM-dd-HH:mm:ss")
-    LocalDateTime time;
+
 }

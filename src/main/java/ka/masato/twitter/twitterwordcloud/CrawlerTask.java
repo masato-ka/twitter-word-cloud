@@ -21,7 +21,7 @@ public class CrawlerTask {
     @Scheduled(fixedDelayString = "${crawling.repeat.interval:600000}")
     private void doCrawlingTwitter() throws TwitterException {
         int timeSpan = crawlingTime/60000;
-        wordCountsService.indexingWordCount("ジャパンカップ",100, timeSpan);
+        wordCountsService.indexingWordCount("チャンピオンズカップ",100, timeSpan);
     }
 
 }
