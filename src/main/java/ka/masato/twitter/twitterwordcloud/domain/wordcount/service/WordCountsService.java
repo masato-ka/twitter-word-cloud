@@ -9,10 +9,13 @@ import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordCountR
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordRepository;
 import ka.masato.twitter.twitterwordcloud.infra.TwitterConnector;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import twitter4j.TwitterException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,8 +36,9 @@ public class WordCountsService {
         this.twitterConnector = twitterConnector;
         this.wordCountRepository = wordCountRepository;
         this.wordRepository = wordRepository;
-        String fileName = WordCountsService.class.getClassLoader().getResource("userDic.csv").getPath();
-        tokenizer = new Tokenizer.Builder().userDictionary(fileName).build();
+        InputStream is = WordCountsService.class.getClassLoader().getResourceAsStream("userDic.csv");
+        tokenizer = new Tokenizer.Builder().userDictionary(is).build();
+
     }
 
     public List<WordCounts> getWordCountsPreod(LocalDateTime time1, LocalDateTime time2){
