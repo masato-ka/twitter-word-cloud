@@ -25,6 +25,7 @@ spring:
     tomcat:
       validation-query: SELECT 1
       test-on-borrow: true
+      connection-properties: useUnicode=true;characterEncoding=utf-8;
     url: jdbc:mysql://localhost/mydb
     username: userfoo
     password: secret
