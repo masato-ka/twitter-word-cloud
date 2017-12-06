@@ -20,12 +20,13 @@ spring:
 
 spring:
   profiles: production
+
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     tomcat:
       validation-query: SELECT 1
       test-on-borrow: true
-    connection-properties: characterEncoding=UTF-8;characterSetResults=UTF-8;
+      connectionProperties: characterEncoding=utf-8;
     url: jdbc:mysql://localhost/mydb
     username: userfoo
     password: secret
