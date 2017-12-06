@@ -33,5 +33,7 @@ spring:
     hibernate:
       ddl-auto: update
       show-sql: true
+      naming:
+        strategy: org.hibernate.cfg.EJB3NamingStrategy
     database-platform: org.hibernate.dialect.MySQLDialect
 
