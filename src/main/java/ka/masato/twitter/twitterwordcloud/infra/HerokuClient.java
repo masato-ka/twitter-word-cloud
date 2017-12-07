@@ -16,7 +16,7 @@ import java.net.URL;
 public class HerokuClient {
 
     private RestTemplate restTemplate;
-    @Value("${heroku.own.url}")
+    @Value("${heroku.own.url:http://localhost:8080/}")
     private String getUrl;
 
     public HerokuClient(RestTemplateBuilder restTemplateBuilder) {

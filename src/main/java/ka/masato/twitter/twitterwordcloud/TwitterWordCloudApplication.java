@@ -21,6 +21,8 @@ public class TwitterWordCloudApplication {
 	}
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(TwitterWordCloudApplication.class, args);
+
 	}
 }
