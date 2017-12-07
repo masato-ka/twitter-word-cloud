@@ -2,11 +2,14 @@ package ka.masato.twitter.twitterwordcloud;
 
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.service.WordCountsService;
 import ka.masato.twitter.twitterwordcloud.infra.HerokuClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import twitter4j.TwitterException;
 
+@Slf4j
 @Component
 public class CrawlerTask {
 
@@ -27,9 +30,13 @@ public class CrawlerTask {
         wordCountsService.indexingWordCount("有馬記念",100, timeSpan);
     }
 
-    @Scheduled(cron = "* */20 * * * *", zone = "Asia/Tokyo")
+    @Scheduled(cron = "0 */20 * * * *", zone = "Asia/Tokyo")
     private void doKickSelf() {
-        this.herokuClient.getHerokuOwn();
+        try {
+            this.herokuClient.getHerokuOwn();
+        }catch(HttpClientErrorException e){
+            log.warn("The URL is not found.");
+        }
     }
 
 }

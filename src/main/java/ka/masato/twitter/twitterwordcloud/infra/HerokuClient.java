@@ -27,8 +27,9 @@ public class HerokuClient {
         try {
             URI url = new URI(getUrl);
             restTemplate.getForObject(url, String.class);
+            log.info("Hey Dyno Please do not sleep.");
         } catch (URISyntaxException e) {
-            log.error("Failed setting URL for heroku.own.url");
+            log.error("Failed setting URL for heroku.own.url.");
         }
     }
 }
