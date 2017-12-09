@@ -1,4 +1,4 @@
-package ka.masato.twitter.twitterwordcloud.aspect;
+package ka.masato.twitter.twitterwordcloud.advice;
 
 import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,5 +20,6 @@ public class ExceptionAspect {
             throw new NotFoundDataException();
         }
     }
+
 
 }

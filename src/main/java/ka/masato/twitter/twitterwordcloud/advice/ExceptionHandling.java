@@ -12,7 +12,7 @@ public class ExceptionHandling {
 
     @AfterThrowing("within(ka.masato.twitter.twitterwordcloud.infra.TwitterConnector)")
     public void handlingTwitterException() {
-        log.error("Exception. ");
+        log.error("Failed connect to Twitter API. please check the setting. ");
     }
 
 }
