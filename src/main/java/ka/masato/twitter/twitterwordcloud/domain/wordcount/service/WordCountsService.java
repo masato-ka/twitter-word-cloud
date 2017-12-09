@@ -7,6 +7,7 @@ import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.Word;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCounts;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordCountRepository;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordRepository;
+import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
 import ka.masato.twitter.twitterwordcloud.infra.TwitterConnector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -42,7 +43,6 @@ public class WordCountsService {
     }
 
     public List<WordCounts> getWordCountsPreod(LocalDateTime time1, LocalDateTime time2){
-        //List<WordCounts> result = wordCountsRepository.findByTimeBetween(time1, time2);
         List<WordCounts> result = wordCountRepository.findByTimeBetween(time1, time2);
         return result;
     }
