@@ -1,4 +1,4 @@
-package ka.masato.twitter.twitterwordcloud.infra;
+package ka.masato.twitter.twitterwordcloud.infrastructure;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,10 +6,8 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 @Slf4j
 @Component

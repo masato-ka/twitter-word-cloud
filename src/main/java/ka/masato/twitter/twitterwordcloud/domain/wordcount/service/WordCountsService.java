@@ -7,11 +7,8 @@ import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.Word;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCounts;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordCountRepository;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordRepository;
-import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
-import ka.masato.twitter.twitterwordcloud.infra.TwitterConnector;
+import ka.masato.twitter.twitterwordcloud.infrastructure.TwitterConnector;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import twitter4j.TwitterException;
 

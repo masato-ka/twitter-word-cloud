@@ -1,4 +1,4 @@
-package ka.masato.twitter.twitterwordcloud.advice;
+package ka.masato.twitter.twitterwordcloud.domain.wordcount.service.advice;
 
 import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Aspect
-public class ExceptionAspect {
+public class ExceptionServiceAdvice {
 
     @AfterReturning(value = "execution(* *..*Service.get*(..))", returning = "ret")
     public void logging(JoinPoint jp, Object ret) {
@@ -19,7 +19,8 @@ public class ExceptionAspect {
         if (ret == null) {
             throw new NotFoundDataException();
         }
-    }
 
+
+    }
 
 }

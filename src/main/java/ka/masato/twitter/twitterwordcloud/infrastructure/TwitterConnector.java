@@ -1,4 +1,4 @@
-package ka.masato.twitter.twitterwordcloud.infra;
+package ka.masato.twitter.twitterwordcloud.infrastructure;
 
 import ka.masato.twitter.twitterwordcloud.domain.tweet.domain.Tweet;
 import lombok.extern.slf4j.Slf4j;

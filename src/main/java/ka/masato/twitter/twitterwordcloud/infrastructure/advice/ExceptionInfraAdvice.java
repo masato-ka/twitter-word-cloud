@@ -1,4 +1,4 @@
-package ka.masato.twitter.twitterwordcloud.advice;
+package ka.masato.twitter.twitterwordcloud.infrastructure.advice;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 @Component
-public class ExceptionHandling {
+public class ExceptionInfraAdvice {
 
-    @AfterThrowing("within(ka.masato.twitter.twitterwordcloud.infra.TwitterConnector)")
+    @AfterThrowing("within(ka.masato.twitter.twitterwordcloud.infrastructure.TwitterConnector)")
     public void handlingTwitterException() {
         log.error("Failed connect to Twitter API. please check the setting. ");
     }

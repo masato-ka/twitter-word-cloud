@@ -1,7 +1,7 @@
 package ka.masato.twitter.twitterwordcloud;
 
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.service.WordCountsService;
-import ka.masato.twitter.twitterwordcloud.infra.HerokuClient;
+import ka.masato.twitter.twitterwordcloud.infrastructure.HerokuClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
