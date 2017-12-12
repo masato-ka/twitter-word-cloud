@@ -28,7 +28,7 @@ public class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorResponse HttpRequestMethodNotSupportedHandler(Exception e) {
-        log.warn("Request non exsists url from clinet.");
+        log.error("Request non exsists url from clinet.");
         ErrorResponse errorResponse = new ErrorResponse(404, e.getMessage());
         return errorResponse;
     }
@@ -37,7 +37,7 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse NotFoundDataExceptionHandller(Exception e) {
-        log.warn("The request data not found.");
+        log.error("The request data not found.");
         ErrorResponse errorResponse = new ErrorResponse(404, e.getMessage());
         return errorResponse;
     }
@@ -46,7 +46,7 @@ public class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse HttpRequestIllegalArgumentException(Exception e) {
-        log.warn("Request is Bad request.");
+        log.error("Request is Bad request.");
         ErrorResponse errorResponse = new ErrorResponse(400, e.getMessage());
         return errorResponse;
     }

@@ -4,6 +4,7 @@ import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCountSummar
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.repository.WordCountSummaryRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -13,6 +14,14 @@ public class WordCountSummaryService {
 
     public WordCountSummaryService(WordCountSummaryRepository wordCountSummaryRepository) {
         this.wordCountSummaryRepository = wordCountSummaryRepository;
+    }
+
+    public WordCountSummary getTotalWordCount(String word, LocalDateTime start, LocalDateTime end) {
+        return wordCountSummaryRepository.sumCountByWordAndPeriod(word, start, end);
+    }
+
+    public List<WordCountSummary> getTotalWordCount(LocalDateTime start, LocalDateTime end) {
+        return wordCountSummaryRepository.sumCountByPeriod(start, end);
     }
 
     public WordCountSummary getTotalWordCount(String word){

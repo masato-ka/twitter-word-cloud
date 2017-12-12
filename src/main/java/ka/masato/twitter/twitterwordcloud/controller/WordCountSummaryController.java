@@ -2,11 +2,10 @@ package ka.masato.twitter.twitterwordcloud.controller;
 
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.WordCountSummary;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.service.WordCountSummaryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,12 +19,26 @@ public class WordCountSummaryController {
     }
 
     @GetMapping("/{word}")
-    public WordCountSummary getWordCountSummary(@PathVariable String word){
-        return wordCountSummaryService.getTotalWordCount(word);
+    public WordCountSummary getWordCountSummary(@PathVariable String word,
+                                                @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
+                                                @RequestParam(value = "start", required = false) LocalDateTime start,
+                                                @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
+                                                @RequestParam(value = "end", required = false) LocalDateTime end) {
+        if (start == null || end == null) {
+            return wordCountSummaryService.getTotalWordCount(word);
+        }
+        return wordCountSummaryService.getTotalWordCount(word, start, end);
     }
 
+    //TODO Doja timeで落ちた時のBad requestをハンドルできてない。全体的にできていないのでは？
     @GetMapping()
-    public List<WordCountSummary> getWordCountSummaryAll(){
-        return wordCountSummaryService.getTotalWordCountAll();
+    public List<WordCountSummary> getWordCountSummaryAll(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
+                                                         @RequestParam(value = "start", required = false) LocalDateTime start,
+                                                         @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
+                                                         @RequestParam(value = "end", required = false) LocalDateTime end) {
+        if (start == null || end == null) {
+            return wordCountSummaryService.getTotalWordCountAll();
+        }
+        return wordCountSummaryService.getTotalWordCount(start, end);
     }
 }
