@@ -25,7 +25,7 @@ public class WordController {
     }
 
     @GetMapping("/{word}")
-    public Word getWordsOne(@PathVariable String word){
+    public Word getWordsOne(@PathVariable("word") String word) {
         return wordService.getWord(word);
     }
 }

@@ -19,7 +19,7 @@ public class WordCountSummaryController {
     }
 
     @GetMapping("/{word}")
-    public WordCountSummary getWordCountSummary(@PathVariable String word,
+    public WordCountSummary getWordCountSummary(@PathVariable("word") String word,
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
                                                 @RequestParam(value = "start", required = false) LocalDateTime start,
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")

@@ -22,7 +22,7 @@ public class WordCountController {
     }
 
     @GetMapping("/{word}")
-    public List<WordCounts> getWordCounts(@PathVariable String word){
+    public List<WordCounts> getWordCounts(@PathVariable("word") String word) {
         return wordCountsService.getWordCounts(word);
     }
 
