@@ -16,11 +16,11 @@ public class WordCountSummaryService {
         this.wordCountSummaryRepository = wordCountSummaryRepository;
     }
 
-    public WordCountSummary getTotalWordCount(String word, LocalDateTime start, LocalDateTime end) {
+    public WordCountSummary getTotalWordCountPeriod(String word, LocalDateTime start, LocalDateTime end) {
         return wordCountSummaryRepository.sumCountByWordAndPeriod(word, start, end);
     }
 
-    public List<WordCountSummary> getTotalWordCount(LocalDateTime start, LocalDateTime end) {
+    public List<WordCountSummary> getTotalWordCountPeriod(LocalDateTime start, LocalDateTime end) {
         return wordCountSummaryRepository.sumCountByPeriod(start, end);
     }
 

@@ -30,7 +30,7 @@ public class WordCountController {
     public List<WordCounts> getWordCountsWithTime(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS") @RequestParam LocalDateTime time1,
                                                   @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS") @RequestParam LocalDateTime time2){
 
-        return wordCountsService.getWordCountsPreod(time1, time2);
+        return wordCountsService.getWordCountsPeriod(time1, time2);
     }
 
 }

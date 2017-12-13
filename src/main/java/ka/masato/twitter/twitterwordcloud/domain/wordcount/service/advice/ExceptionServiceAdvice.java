@@ -20,7 +20,6 @@ public class ExceptionServiceAdvice {
             throw new NotFoundDataException();
         }
 
-
     }
 
 }

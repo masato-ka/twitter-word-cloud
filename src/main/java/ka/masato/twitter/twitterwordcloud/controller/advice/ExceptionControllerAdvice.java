@@ -1,6 +1,7 @@
 package ka.masato.twitter.twitterwordcloud.controller.advice;
 
 import ka.masato.twitter.twitterwordcloud.controller.error.ErrorResponse;
+import ka.masato.twitter.twitterwordcloud.exception.ErrorQueryTimeException;
 import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -58,6 +59,15 @@ public class ExceptionControllerAdvice {
         log.error("Missing request parameter." + e.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(400, e.getMessage());
         // e.printStackTrace();
+        return errorResponse;
+    }
+
+    @ExceptionHandler(ErrorQueryTimeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse ErrorQueryTimeExceptionHandler(Exception e) {
+        log.error("Bad request, because specific time is error");
+        ErrorResponse errorResponse = new ErrorResponse(400, "Time1 and Time2 are exchange.");
         return errorResponse;
     }
 

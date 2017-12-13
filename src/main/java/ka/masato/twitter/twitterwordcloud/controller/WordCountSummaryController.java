@@ -27,7 +27,7 @@ public class WordCountSummaryController {
         if (start == null || end == null) {
             return wordCountSummaryService.getTotalWordCount(word);
         }
-        return wordCountSummaryService.getTotalWordCount(word, start, end);
+        return wordCountSummaryService.getTotalWordCountPeriod(word, start, end);
     }
 
     //TODO Doja timeで落ちた時のBad requestをハンドルできてない。全体的にできていないのでは？
@@ -39,6 +39,6 @@ public class WordCountSummaryController {
         if (start == null || end == null) {
             return wordCountSummaryService.getTotalWordCountAll();
         }
-        return wordCountSummaryService.getTotalWordCount(start, end);
+        return wordCountSummaryService.getTotalWordCountPeriod(start, end);
     }
 }
