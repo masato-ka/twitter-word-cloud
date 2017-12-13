@@ -41,9 +41,6 @@ public class WordCountsService {
     }
 
     public List<WordCounts> getWordCountsPeriod(LocalDateTime time1, LocalDateTime time2) {
-        if (time1.isAfter(time2)) {
-            throw new ErrorQueryTimeException();
-        }
         List<WordCounts> result = wordCountRepository.findByTimeBetween(time1, time2);
         return result;
     }
