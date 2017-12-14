@@ -85,7 +85,8 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     public ErrorResponse ConversionFailedExceptionHandler(Exception e) {
         log.error("Fail conversion from request to Object");
-        ErrorResponse new ErrorResponse(400, e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse(400, e.getMessage());
+        return errorResponse;
     }
 
 }
