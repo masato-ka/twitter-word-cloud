@@ -1,6 +1,7 @@
 package ka.masato.twitter.twitterwordcloud.domain.wordcount.service.advice;
 
 import ka.masato.twitter.twitterwordcloud.exception.ErrorQueryTimeException;
+import ka.masato.twitter.twitterwordcloud.exception.ErrorTimeParameterIndicateFutureTime;
 import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -27,17 +28,13 @@ public class ExceptionServiceAdvice {
 
     }
 
-    //TODO 検索期間処理をAdviceで実装する。
+    //TODO もうちょっと綺麗に書く。
     @Before(value = "execution(* *..*Service.*Period(..))")
     public void mandatoryCheckTimeArgument(JoinPoint jp) {
         LocalDateTime[] parameters = new LocalDateTime[2];
         Object[] args = jp.getArgs();
         int i = 0;
-        for (Object arg : args) {
-            if (arg.getClass() == LocalDateTime.class) {
-                parameters[i++] = (LocalDateTime) arg;
-            }
-        }
+        extractLocalDateTimeargs(parameters, args, i);
         if (parameters[0] == null || parameters[1] == null) {
             return;
         }
@@ -45,6 +42,20 @@ public class ExceptionServiceAdvice {
         if (parameters[0].isAfter(parameters[1])) {
             log.error("Time parameters relation is illegal. ");
             throw new ErrorQueryTimeException();
+        }
+
+        LocalDateTime nowTime = LocalDateTime.now();
+        if (nowTime.isBefore(parameters[0])) {
+            throw new ErrorTimeParameterIndicateFutureTime();
+        }
+
+    }
+
+    private void extractLocalDateTimeargs(LocalDateTime[] parameters, Object[] args, int i) {
+        for (Object arg : args) {
+            if (arg.getClass() == LocalDateTime.class) {
+                parameters[i++] = (LocalDateTime) arg;
+            }
         }
     }
 

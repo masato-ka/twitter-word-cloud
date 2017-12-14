@@ -2,11 +2,10 @@ package ka.masato.twitter.twitterwordcloud.controller;
 
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.model.Word;
 import ka.masato.twitter.twitterwordcloud.domain.wordcount.service.WordService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,8 +19,16 @@ public class WordController {
     }
 
     @GetMapping
-    public List<Word> getWords(){
-        return wordService.getWords();
+    public List<Word> getWords(@RequestParam(value = "start", required = false)
+                               @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
+                                       LocalDateTime start,
+                               @RequestParam(value = "end", required = false)
+                               @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
+                                       LocalDateTime end) {
+        if (start == null || end == null) {
+            return wordService.getWords();
+        }
+        return wordService.getWorsdPeriod(start, end);
     }
 
     @GetMapping("/{word}")

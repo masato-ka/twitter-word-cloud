@@ -2,15 +2,14 @@ package ka.masato.twitter.twitterwordcloud.controller.advice;
 
 import ka.masato.twitter.twitterwordcloud.controller.error.ErrorResponse;
 import ka.masato.twitter.twitterwordcloud.exception.ErrorQueryTimeException;
+import ka.masato.twitter.twitterwordcloud.exception.ErrorTimeParameterIndicateFutureTime;
 import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j
@@ -69,6 +68,24 @@ public class ExceptionControllerAdvice {
         log.error("Bad request, because specific time is error");
         ErrorResponse errorResponse = new ErrorResponse(400, "Time1 and Time2 are exchange.");
         return errorResponse;
+    }
+
+    @ExceptionHandler(ErrorTimeParameterIndicateFutureTime.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse ErrorTimeParameterIndicateFutureTimeHandler(Exception e) {
+        log.error("In start time parameter is future time date.");
+        ErrorResponse errorResponse = new ErrorResponse(400,
+                "In start time Parameter is future time date.");
+        return errorResponse;
+    }
+
+    @ExceptionHandler(ConversionFailedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse ConversionFailedExceptionHandler(Exception e) {
+        log.error("Fail conversion from request to Object");
+        ErrorResponse new ErrorResponse(400, e.getMessage());
     }
 
 }

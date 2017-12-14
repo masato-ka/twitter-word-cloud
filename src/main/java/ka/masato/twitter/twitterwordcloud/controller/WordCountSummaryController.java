@@ -41,4 +41,6 @@ public class WordCountSummaryController {
         }
         return wordCountSummaryService.getTotalWordCountPeriod(start, end);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package ka.masato.twitter.twitterwordcloud.domain.wordcount.service;
 
+import com.atilika.kuromoji.TokenizerBase;
 import com.atilika.kuromoji.ipadic.Token;
 import com.atilika.kuromoji.ipadic.Tokenizer;
 import ka.masato.twitter.twitterwordcloud.domain.tweet.domain.Tweet;
@@ -37,7 +38,6 @@ public class WordCountsService {
         this.wordRepository = wordRepository;
         InputStream is = WordCountsService.class.getClassLoader().getResourceAsStream("userDic.csv");
         tokenizer = new Tokenizer.Builder().userDictionary(is).build();
-
     }
 
     public List<WordCounts> getWordCountsPeriod(LocalDateTime time1, LocalDateTime time2) {
