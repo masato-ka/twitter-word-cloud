@@ -15,7 +15,8 @@ import java.util.List;
 public class WordCountController {
 
     private final WordCountsService wordCountsService;
-
+    //TODO API整理
+    //時間クエリの投げかけがJST とUTC混在問題。
 
     public WordCountController(WordCountsService wordCountsService) {
         this.wordCountsService = wordCountsService;
@@ -27,10 +28,10 @@ public class WordCountController {
     }
 
     @GetMapping()
-    public List<WordCounts> getWordCountsWithTime(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS") @RequestParam LocalDateTime time1,
-                                                  @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS") @RequestParam LocalDateTime time2){
+    public List<WordCounts> getWordCountsWithTime(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS") @RequestParam LocalDateTime start,
+                                                  @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS") @RequestParam LocalDateTime end) {
 
-        return wordCountsService.getWordCountsPeriod(time1, time2);
+        return wordCountsService.getWordCountsPeriod(start, end);
     }
 
 }

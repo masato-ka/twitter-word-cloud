@@ -1,18 +1,19 @@
 package ka.masato.twitter.twitterwordcloud.domain.wordcount.service.advice;
 
+import javassist.NotFoundException;
 import ka.masato.twitter.twitterwordcloud.exception.ErrorQueryTimeException;
 import ka.masato.twitter.twitterwordcloud.exception.ErrorTimeParameterIndicateFutureTime;
 import ka.masato.twitter.twitterwordcloud.exception.NotFoundDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -20,12 +21,19 @@ import java.time.LocalDateTime;
 public class ExceptionServiceAdvice {
 
     @AfterReturning(value = "execution(* *..*Service.get*(..))", returning = "ret")
-    public void logging(JoinPoint jp, Object ret) {
-        log.info("After do function." + jp.getSignature());
+    public void returningNullCheck(JoinPoint jp, Object ret) {
+        log.info("Result chekck after do function." + jp.getSignature());
         if (ret == null) {
             throw new NotFoundDataException();
         }
 
+        if (ret.getClass() == ArrayList.class) {
+            ArrayList result = (ArrayList) ret;
+            if (result.size() == 0) {
+                log.warn("jp.getSignature()" + ": result is not found.");
+                throw new NotFoundDataException();
+            }
+        }
     }
 
     //TODO もうちょっと綺麗に書く。
