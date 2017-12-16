@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/summary/wordcounts")
+@RequestMapping("/api/v1/words")
 public class WordCountSummaryController {
 
     private final WordCountSummaryService wordCountSummaryService;
@@ -18,7 +18,7 @@ public class WordCountSummaryController {
         this.wordCountSummaryService = wordCountSummaryService;
     }
 
-    @GetMapping("/{word}")
+    @GetMapping("/{word}/count/summary")
     public WordCountSummary getWordCountSummary(@PathVariable("word") String word,
                                                 @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
                                                 @RequestParam(value = "start", required = false) LocalDateTime start,
@@ -31,7 +31,7 @@ public class WordCountSummaryController {
     }
 
     //TODO Doja timeで落ちた時のBad requestをハンドルできてない。全体的にできていないのでは？
-    @GetMapping()
+    @GetMapping("/count/summary")
     public List<WordCountSummary> getWordCountSummaryAll(@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
                                                          @RequestParam(value = "start", required = false) LocalDateTime start,
                                                          @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss.SSS")
