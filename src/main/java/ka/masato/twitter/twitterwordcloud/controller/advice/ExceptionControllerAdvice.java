@@ -85,7 +85,9 @@ public class ExceptionControllerAdvice {
     @ResponseBody
     public ErrorResponse ConversionFailedExceptionHandler(Exception e) {
         log.error("Fail conversion from request to Object");
-        ErrorResponse errorResponse = new ErrorResponse(400, e.getMessage());
+        log.error(e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(400,
+                "Start and End parameter format is yyyy-MM-dd-HH:mm:ss.SSS .");
         return errorResponse;
     }
 
